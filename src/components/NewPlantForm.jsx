@@ -70,7 +70,7 @@ function NewPlantForm({ onAddPlant }) {
           value={formData.name}
           onChange={handleChange}
           required
-        />
+        />  
 
         <input
           type="text"
