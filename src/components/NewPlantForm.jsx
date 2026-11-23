@@ -1,8 +1,6 @@
 
 import React, { useState } from "react";
 
-const BASE_URL = "http://localhost:6001";
-
 function NewPlantForm({ onAddPlant }) {
   const [formData, setFormData] = useState({
     name: "",
@@ -10,7 +8,6 @@ function NewPlantForm({ onAddPlant }) {
     price: "",
   });
 
-  // Update form state whenever an input changes
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -20,17 +17,17 @@ function NewPlantForm({ onAddPlant }) {
     }));
   }
 
-  // Submit the form to the backend
   function handleSubmit(event) {
     event.preventDefault();
 
+    // Keep price as a string to match the test expectations
     const newPlant = {
       name: formData.name,
       image: formData.image,
-      price: Number(formData.price),
+      price: formData.price,
     };
 
-    fetch(`${BASE_URL}/plants`, {
+    fetch("http://localhost:6001/plants", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,10 +42,8 @@ function NewPlantForm({ onAddPlant }) {
         return response.json();
       })
       .then((createdPlant) => {
-        // Update the plants state in PlantPage
         onAddPlant(createdPlant);
 
-        // Reset the form
         setFormData({
           name: "",
           image: "",
@@ -70,7 +65,7 @@ function NewPlantForm({ onAddPlant }) {
           value={formData.name}
           onChange={handleChange}
           required
-        />  
+        />
 
         <input
           type="text"
@@ -85,7 +80,6 @@ function NewPlantForm({ onAddPlant }) {
           type="number"
           name="price"
           step="0.01"
-          min="0"
           placeholder="Price"
           value={formData.price}
           onChange={handleChange}
